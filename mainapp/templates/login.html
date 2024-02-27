@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Management System</title>
+</head>
+<style>
+    /* styles.css */
+/* styles.css */
+.signup-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.signup-form input[type="text"]:focus,
+.signup-form input[type="password"]:focus {
+    border-color: #007bff;
+}
+
+.signup-form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.signup-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    border-color: #ff5555 !important;
+}
+
+.error-message {
+    color: #ff5555;
+    font-size: 14px;
+}
+body{
+    background-color: #8e99a4;
+}
+</style>
+<body>
+<h1 style="text-align: center; color: #f9f9f9;">Login</h1>
+<div class="signup-form" style="margin-top: 60px;">
+    <form method="post">
+        {% csrf_token %}
+        {%for fm in form%}
+        {{fm}}{{fm.label_tag}}{{fm.errors}}
+        {% endfor %}
+        <button type="submit" style="margin-top: 50px;">Sign Up</button>
+    </form >
+    <a href="{%url 'signup'%}" style="text-decoration: underline; ">New User?</a>
+</div>
+
+</body>
+</html>
+

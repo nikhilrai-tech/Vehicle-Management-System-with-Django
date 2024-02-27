@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search by PO Number</title>
+</head>
+<body>
+    <form action="{% url 'search_by_po_number' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="po_number" placeholder="Search with PO Number">
+        <button type="submit">Search</button>
+    </form>
+    
+    {% if products %}
+        <h1>Search Results</h1>
+        
+        <h2>Products:</h2>
+        <ul>
+            {% for product in products %}
+                <li>{{ product.name }} - Vendor: {{ product.vendor.name }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h2>Vehicles:</h2>
+        <ul>
+            {% for vehicle in vehicles %}
+                <li>{{ vehicle.vehicle_number }} - Type: {{ vehicle.vehicle_type }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
