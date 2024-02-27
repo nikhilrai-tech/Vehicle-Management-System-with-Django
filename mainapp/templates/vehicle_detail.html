@@ -66,8 +66,6 @@
         <p>Delivery Challan (D.C.) Number: {{ vehicle.dc_number }}</p>
         <p>Purchase Order (P.O.) Number: {{ vehicle.po_number }}</p>
         <p>Quality Check Status: {% if vehicle.quality_check %}Passed{% else %}Failed{% endif %}</p>
-        
-        <!-- Add checkout button -->
         <form action="{% url 'vehicle_checkout' vehicle.id %}" method="post">
             {% csrf_token %}
             <button type="submit">Checkout</button>
