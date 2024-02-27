@@ -48,7 +48,7 @@ Create a Postman collection that includes pre-defined requests for all API endpo
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/nikhilrai-tech/Storlyy.git
+    git clone https://github.com/nikhilrai-tech/Vehicle-Management-System-with-Django.git
     ```
 
 2. **Navigate to the project directory:**
