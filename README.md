@@ -54,7 +54,7 @@ Create a Postman collection that includes pre-defined requests for all API endpo
 2. **Navigate to the project directory:**
 
     ```bash
-    cd user-form-project
+    cd main
     ```
 
 3. **Create and activate a virtual environment:**
