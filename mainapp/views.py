@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect,HttpResponse
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import VehicleForm,VendorForm,ProductForm
-from .models import Vehicle, Vendor, Product
+from .models import Vehicle, Vendor, Product,CheckoutRequest
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import user_passes_test
+from django.shortcuts import render, get_object_or_404
 
 def user_login(request):
     if request.method == 'POST':
@@ -28,7 +31,7 @@ def user_signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
-from django.contrib.auth.decorators import login_required
+
 @login_required
 def dashboard(request):
     if request.method == 'POST':
@@ -40,6 +43,7 @@ def dashboard(request):
         vendor_form = VendorForm()
     return render(request, 'dashboard.html', {'form': vendor_form})
 
+@login_required
 def select_product(request):
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
@@ -50,6 +54,7 @@ def select_product(request):
         product_form = ProductForm()
     return render(request, 'select_product.html', {'form': product_form})
 
+@login_required
 def enter_vehicle_data(request):
     if request.method == 'POST':
         form = VehicleForm(request.POST)
@@ -63,28 +68,42 @@ def enter_vehicle_data(request):
     return render(request, 'vehicle.html', {'form': form})
 
 
-from django.shortcuts import render, get_object_or_404
+@login_required
 def vehicle_detail(request, vehicle_id):
     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
     return render(request, 'vehicle_detail.html', {'vehicle': vehicle})
 
-
+@login_required
 def userlogout(request):
     logout(request)
     return redirect("login")
 
+@login_required
 def success(request):
     fm=Vehicle.objects.all()
     return render(request, 'success.html',{"fm":fm})
-    
+
+
+# @user_passes_test(lambda u: u.is_superuser)
+# @login_required
+# def vehicle_checkout(request, vehicle_id):
+#     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
+#     vehicle.checked_out = True
+#     vehicle.verified_by_superuser = True
+#     vehicle.save()
+#     vehicle.delete()
+#     return render(request, 'vehicle_checkout_success.html',{'vehicle': vehicle})
+
+@login_required
 def vehicle_checkout(request, vehicle_id):
     vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
-    vehicle.checked_out = True
-    vehicle.save()
-    vehicle.delete()
-    return render(request, 'vehicle_checkout_success.html',{'vehicle': vehicle})
+    checkout_request = CheckoutRequest.objects.create(user=request.user, vehicle=vehicle)
+    # vehicle.delete()
 
+    
+    return render(request, 'vehicle_checkout_success.html', {'vehicle': checkout_request})
 
+@login_required
 def search_by_po_number(request):
     if request.method == 'POST':
         po_number = request.POST.get('po_number', None)

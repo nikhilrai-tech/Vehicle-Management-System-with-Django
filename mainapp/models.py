@@ -26,10 +26,12 @@ class Vehicle(models.Model):
     def __str__(self):
         return f"{self.user} - {self.vehicle_number} - {self.vehicle_type} - {self.dc_number} - {self.po_number} - {self.quality_check}"
     
-    def delete(self, *args, **kwargs):
-        if self.product:
-            self.product.delete()
-            vendor = self.product.vendor
-            if not vendor.product_set.exclude(id=self.product.id).exists():
-                vendor.delete()
-        super().delete(*args, **kwargs)
+    
+
+class CheckoutRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    is_verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Checkout Request for {self.vehicle} by {self.user}"
